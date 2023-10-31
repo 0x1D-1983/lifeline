@@ -1,0 +1,270 @@
+extends default
+block main.main
+  main.container
+    .p-4.p-md-5.mb-4.rounded.text-body-emphasis.bg-body-secondary
+      .col-lg-6.px-0
+        h1.display-4.fst-italic Title of a longer featured blog post
+        p.lead.my-3
+          | Multiple lines of text that form the lede, informing new readers quickly and efficiently about what&rsquo;s most interesting in this post&rsquo;s contents.
+        p.lead.mb-0
+          a.text-body-emphasis.fw-bold(href='#') Continue reading...
+    .row.mb-2
+      .col-md-6
+        .row.g-0.border.rounded.overflow-hidden.flex-md-row.mb-4.shadow-sm.h-md-250.position-relative
+          .col.p-4.d-flex.flex-column.position-static
+            strong.d-inline-block.mb-2.text-primary-emphasis World
+            h3.mb-0 Featured post
+            .mb-1.text-body-secondary Nov 12
+            p.card-text.mb-auto
+              | This is a wider card with supporting text below as a natural lead-in to additional content.
+            a.icon-link.gap-1.icon-link-hover.stretched-link(href='#')
+              | Continue reading
+              svg.bi
+                use(xlink:href='#chevron-right')
+          .col-auto.d-none.d-lg-block
+            svg.bd-placeholder-img(width='200' height='250' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: Thumbnail' preserveaspectratio='xMidYMid slice' focusable='false')
+              title Placeholder
+              rect(width='100%' height='100%' fill='#55595c')
+              text(x='50%' y='50%' fill='#eceeef' dy='.3em') Thumbnail
+      .col-md-6
+        .row.g-0.border.rounded.overflow-hidden.flex-md-row.mb-4.shadow-sm.h-md-250.position-relative
+          .col.p-4.d-flex.flex-column.position-static
+            strong.d-inline-block.mb-2.text-success-emphasis Design
+            h3.mb-0 Post title
+            .mb-1.text-body-secondary Nov 11
+            p.mb-auto
+              | This is a wider card with supporting text below as a natural lead-in to additional content.
+            a.icon-link.gap-1.icon-link-hover.stretched-link(href='#')
+              | Continue reading
+              svg.bi
+                use(xlink:href='#chevron-right')
+          .col-auto.d-none.d-lg-block
+            svg.bd-placeholder-img(width='200' height='250' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: Thumbnail' preserveaspectratio='xMidYMid slice' focusable='false')
+              title Placeholder
+              rect(width='100%' height='100%' fill='#55595c')
+              text(x='50%' y='50%' fill='#eceeef' dy='.3em') Thumbnail
+    .row.g-5
+      .col-md-8
+        h3.pb-4.mb-4.fst-italic.border-bottom
+          | From the Firehose
+        article.blog-post
+          h2.display-5.link-body-emphasis.mb-1 Sample blog post
+          p.blog-post-meta
+            | January 1, 2021 by 
+            a(href='#') Mark
+          p
+            | This blog post shows a few different types of content that&rsquo;s supported and styled with Bootstrap. Basic typography, lists, tables, images, code, and more are all supported as expected.
+          hr
+          p
+            | This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We&apos;ll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.
+          h2 Blockquotes
+          p This is an example blockquote in action:
+          blockquote.blockquote
+            p Quoted text goes here.
+          p
+            | This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We&apos;ll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.
+          h3 Example lists
+          p
+            | This is some additional paragraph placeholder content. It&apos;s a slightly shorter version of the other highly repetitive body text used throughout. This is an example unordered list:
+          ul
+            li First list item
+            li Second list item with a longer description
+            li Third list item to close it out
+          p And this is an ordered list:
+          ol
+            li First list item
+            li Second list item with a longer description
+            li Third list item to close it out
+          p And this is a definition list:
+          dl
+            dt HyperText Markup Language (HTML)
+            dd The language used to describe and define the content of a Web page
+            dt Cascading Style Sheets (CSS)
+            dd Used to describe the appearance of Web content
+            dt JavaScript (JS)
+            dd The programming language used to build advanced Web sites and applications
+          h2 Inline HTML elements
+          p
+            | HTML defines a long list of available inline tags, a complete list of which can be found on the 
+            a(href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element') Mozilla Developer Network
+            | .
+          ul
+            li
+              strong To bold text
+              | , use 
+              code.language-plaintext.highlighter-rouge &lt;strong&gt;
+              | .
+            li
+              em To italicize text
+              | , use 
+              code.language-plaintext.highlighter-rouge &lt;em&gt;
+              | .
+            li
+              | Abbreviations, like 
+              abbr(title='HyperText Markup Language') HTML
+              |  should use 
+              code.language-plaintext.highlighter-rouge &lt;abbr&gt;
+              | , with an optional 
+              code.language-plaintext.highlighter-rouge title
+              |  attribute for the full phrase.
+            li
+              | Citations, like 
+              cite &mdash; Mark Otto
+              | , should use 
+              code.language-plaintext.highlighter-rouge &lt;cite&gt;
+              | .
+            li
+              del Deleted
+              |  text should use 
+              code.language-plaintext.highlighter-rouge &lt;del&gt;
+              |  and 
+              ins inserted
+              |  text should use 
+              code.language-plaintext.highlighter-rouge &lt;ins&gt;
+              | .
+            li
+              | Superscript 
+              sup text
+              |  uses 
+              code.language-plaintext.highlighter-rouge &lt;sup&gt;
+              |  and subscript 
+              sub text
+              |  uses 
+              code.language-plaintext.highlighter-rouge &lt;sub&gt;
+              | .
+          p
+            | Most of these elements are styled by browsers with few modifications on our part.
+          h2 Heading
+          p
+            | This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We&apos;ll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.
+          h3 Sub-heading
+          p
+            | This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We&apos;ll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.
+          pre.
+            
+          p
+            | This is some additional paragraph placeholder content. It&apos;s a slightly shorter version of the other highly repetitive body text used throughout.
+        article.blog-post
+          h2.display-5.link-body-emphasis.mb-1 Another blog post
+          p.blog-post-meta
+            | December 23, 2020 by 
+            a(href='#') Jacob
+          p
+            | This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We&apos;ll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.
+          blockquote
+            p
+              | Longer quote goes here, maybe with some 
+              strong emphasized text
+              |  in the middle of it.
+          p
+            | This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We&apos;ll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.
+          h3 Example table
+          p And don&apos;t forget about tables in these posts:
+          table.table
+            thead
+              tr
+                th Name
+                th Upvotes
+                th Downvotes
+            tbody
+              tr
+                td Alice
+                td 10
+                td 11
+              tr
+                td Bob
+                td 4
+                td 3
+              tr
+                td Charlie
+                td 7
+                td 9
+            tfoot
+              tr
+                td Totals
+                td 21
+                td 23
+          p
+            | This is some additional paragraph placeholder content. It&apos;s a slightly shorter version of the other highly repetitive body text used throughout.
+        article.blog-post
+          h2.display-5.link-body-emphasis.mb-1 New feature
+          p.blog-post-meta
+            | December 14, 2020 by 
+            a(href='#') Chris
+          p
+            | This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We&apos;ll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.
+          ul
+            li First list item
+            li Second list item with a longer description
+            li Third list item to close it out
+          p
+            | This is some additional paragraph placeholder content. It&apos;s a slightly shorter version of the other highly repetitive body text used throughout.
+        nav.blog-pagination(aria-label='Pagination')
+          a.btn.btn-outline-primary.rounded-pill(href='#') Older
+          a.btn.btn-outline-secondary.rounded-pill.disabled(aria-disabled='true') Newer
+      .col-md-4
+        .position-sticky(style='top: 2rem;')
+          .p-4.mb-3.bg-body-tertiary.rounded
+            h4.fst-italic About
+            p.mb-0
+              | Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.
+          div
+            h4.fst-italic Recent posts
+            ul.list-unstyled
+              li
+                a.d-flex.flex-column.flex-lg-row.gap-3.align-items-start.align-items-lg-center.py-3.link-body-emphasis.text-decoration-none.border-top(href='#')
+                  svg.bd-placeholder-img(width='100%' height='96' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' preserveaspectratio='xMidYMid slice' focusable='false')
+                    rect(width='100%' height='100%' fill='#777')
+                  .col-lg-8
+                    h6.mb-0 Example blog post title
+                    small.text-body-secondary January 15, 2023
+              li
+                a.d-flex.flex-column.flex-lg-row.gap-3.align-items-start.align-items-lg-center.py-3.link-body-emphasis.text-decoration-none.border-top(href='#')
+                  svg.bd-placeholder-img(width='100%' height='96' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' preserveaspectratio='xMidYMid slice' focusable='false')
+                    rect(width='100%' height='100%' fill='#777')
+                  .col-lg-8
+                    h6.mb-0 This is another blog post title
+                    small.text-body-secondary January 14, 2023
+              li
+                a.d-flex.flex-column.flex-lg-row.gap-3.align-items-start.align-items-lg-center.py-3.link-body-emphasis.text-decoration-none.border-top(href='#')
+                  svg.bd-placeholder-img(width='100%' height='96' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' preserveaspectratio='xMidYMid slice' focusable='false')
+                    rect(width='100%' height='100%' fill='#777')
+                  .col-lg-8
+                    h6.mb-0 Longer blog post title: This one has multiple lines!
+                    small.text-body-secondary January 13, 2023
+          .p-4
+            h4.fst-italic Archives
+            ol.list-unstyled.mb-0
+              li
+                a(href='#') March 2021
+              li
+                a(href='#') February 2021
+              li
+                a(href='#') January 2021
+              li
+                a(href='#') December 2020
+              li
+                a(href='#') November 2020
+              li
+                a(href='#') October 2020
+              li
+                a(href='#') September 2020
+              li
+                a(href='#') August 2020
+              li
+                a(href='#') July 2020
+              li
+                a(href='#') June 2020
+              li
+                a(href='#') May 2020
+              li
+                a(href='#') April 2020
+          .p-4
+            h4.fst-italic Elsewhere
+            ol.list-unstyled
+              li
+                a(href='#') GitHub
+              li
+                a(href='#') Twitter
+              li
+                a(href='#') Facebook

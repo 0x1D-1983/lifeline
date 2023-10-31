@@ -1,0 +1,17 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "az group create --name lifeline-rg --location westeurope az identity create --name lifeline-id --resource-group lifeline-rg az acr create --name lifelinerepo --resource-group lifeline-rg --sku Basic --admin-enabled true az acr credential show --resource-group lifeline-rg --name lifelinerepo docker login lifelinerepo.azurecr.io --username lifelinerepo docker tag lifeline lifelinerepo.azurecr.io/lifeline:latest docker push lifelinerepo.azurecr.io/lifeline:latest",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1",
+    "pug": "^3.0.2"
+  }
+}
