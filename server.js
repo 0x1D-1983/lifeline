@@ -3,27 +3,33 @@ const app = express();
 
 app.set('view engine', 'pug');
 
-// serve static files from the `public` folder
+//static assets
 app.use(express.static(__dirname + '/css'));
 app.use(express.static(__dirname + '/img'));
+app.use(express.static(__dirname + '/fonts'));
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', {
+      menu: 'index'
+    });
   });
 
 app.get('/services', (req, res) => {
-  // res.render(req.query.id);
-  res.render('services');
+  res.render('services', {
+    menu: 'services'
+  });
 });
 
 app.get('/staff', (req, res) => {
-  // res.render(req.query.id);
-  res.render('staff');
+  res.render('staff', {
+    menu: 'staff'
+  });
 });
 
 app.get('/blog', (req, res) => {
-  // res.render(req.query.id);
-  res.render('blog');
+  res.render('blog', {
+    menu: 'blog'
+  });
 });
 
 const server = app.listen(8080, () => {

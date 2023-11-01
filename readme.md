@@ -58,3 +58,13 @@ gcloud auth activate-service-account 189769499429-compute@developer.gserviceacco
 
 docker tag lifeline europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline
 docker push europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline
+
+
+gcloud projects list
+
+gcloud config set project lifeline-403712
+
+gcloud builds submit https://github.com/0x1D-1983/lifeline --git-source-revision=52facc5 --tag europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline:demo-2
+
+docker build --platform=linux/amd64 -t europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline:demo-4 .
+docker push europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline:demo-4
