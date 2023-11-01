@@ -15,25 +15,21 @@ svg.d-none(xmlns='http://www.w3.org/2000/svg')
     path(fill-rule='evenodd' fill='#44c3bc' d='M 33.332031 33.332031 L 0 33.332031 L 0 16.667969 L 33.332031 16.667969 Z M 33.332031 33.332031 ')
     path(fill-rule='evenodd' fill='#f679a3' d='M 16.667969 0 L 33.332031 0 L 33.332031 33.332031 L 16.667969 33.332031 Z M 16.667969 0 ')
     path(fill-rule='evenodd' fill='#f679a3' d='M 16.667969 16.667969 L 50 16.667969 L 50 33.332031 L 16.667969 33.332031 Z M 16.667969 16.667969 ')
+a.blog-header-logo.text-body-emphasis.text-decoration-none(href='/')
+  .container
+    .d-flex.justify-content-center.py-3
+      svg(width='50px' height='50px' viewbox='0 0 50 50' version='1.1')
+        use(href='#logoplus')
+    .d-flex.justify-content-center.logo-text
+      span.logo.pink Life
+      span.logo.turquoise Line
 .container
-  header.border-bottom.lh-1.py-3
-    .row.flex-nowrap.justify-content-between.align-items-center
-      .col-4.pt-1
-      .col-4.text-center
-        a.blog-header-logo.text-body-emphasis.text-decoration-none(href='/')
-          svg(width='50px' height='50px' viewbox='0 0 50 50' version='1.1')
-            use(href='#logoplus')
-          br
-          span.logo.pink Life
-          span.logo.turquoise Line
-      .col-4.d-flex.justify-content-end.align-items-center
-  .nav-scroller.py-1.mb-3.border-bottom
+  .nav-scroller.py-1.mb-3
     nav.nav.nav-underline.justify-content-between
       a.nav-item.nav-link.link-body-emphasis(href='/', class={ active: menu == 'index' }) F&odblac;oldal
       a.nav-item.nav-link.link-body-emphasis(href='/services', class={ active: menu == 'services' }) Szolg&aacute;ltat&aacute;sok
       a.nav-item.nav-link.link-body-emphasis(href='/staff', class={ active: menu == 'staff' }) Munkat&aacute;rsak
       a.nav-item.nav-link.link-body-emphasis(href='#') Rendel&odblac;
-      a.nav-item.nav-link.link-body-emphasis(href='#') Kapcsolat
       a.nav-item.nav-link.link-body-emphasis(href='#') Biztos&iacute;t&aacute;s
       a.nav-item.nav-link.link-body-emphasis(href='#') M&eacute;dia
       a.nav-item.nav-link.link-body-emphasis(href='/blog', class={ active: menu == 'blog' }) Blog

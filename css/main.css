@@ -21,7 +21,6 @@
   font-family: 'Atlane';
   font-weight: normal;
   font-style: italic;
-  font-display: swap;
   font-size: 62px;
   text-decoration: none;
 }
@@ -30,6 +29,11 @@
 {
   width: 50px;
   height: 50px;
+}
+
+.logo-text
+{
+  margin-top: -30px;
 }
 
 .white
