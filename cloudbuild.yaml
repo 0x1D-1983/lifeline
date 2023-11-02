@@ -31,14 +31,14 @@ steps:
      - -c
      - |
        docker push europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline/cd:$REVISION_ID
-#    - id: Capture Image Digest Information
-#      name: 'gcr.io/cloud-builders/gcloud'
-#      entrypoint: /bin/bash
-#      args:
-#       - -c
-#       - |
-#         gcloud container images describe us-central1-docker.pkg.dev/$PROJECT_ID/$_CONTAINER_REPO_NAME/cd:$REVISION_ID \
-#         --format='get(image_summary.digest)' > /workspace/digest.txt
+   - id: Capture Image Digest Information
+     name: 'gcr.io/cloud-builders/gcloud'
+     entrypoint: /bin/bash
+     args:
+      - -c
+      - |
+        gcloud container images describe europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline/cd:$REVISION_ID \
+        --format='get(image_summary.digest)' > /workspace/digest.txt
 #    - id: Change permissions on create_binauthz_policy.sh
 #      name: bash
 #      args: ['chmod', '+x', 'scripts/create_binauthz_policy.sh']
@@ -49,13 +49,13 @@ steps:
 #       - -c
 #       - |
 #         ./scripts/create_binauthz_policy.sh
-#    - id: Create a cloud deploy release and this will also deploy the release to the first target ie dev
-#      name: 'gcr.io/cloud-builders/gcloud'
-#      entrypoint: /bin/bash
-#      args:
-#       - -c
-#       - |
-#         gcloud deploy releases create r-$REVISION_ID --project=$PROJECT_ID --region=us-central1 --delivery-pipeline=ci-cd-test --images=notes-app-image=us-central1-docker.pkg.dev/$PROJECT_ID/$_CONTAINER_REPO_NAME/cd@$(cat /workspace/digest.txt)
+   - id: Create a cloud deploy release and this will also deploy the release to the first target ie dev
+     name: 'gcr.io/cloud-builders/gcloud'
+     entrypoint: /bin/bash
+     args:
+      - -c
+      - |
+        gcloud deploy releases create r-$REVISION_ID --project=lifeline-403712 --region=europe-west2 --delivery-pipeline=ci-cd-lifeline --images=lifeline-app-image=europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline/cd@$(cat /workspace/digest.txt)
 #    - id: Promote/deploy cloud deploy release to next stage ie staging  
 #      name: gcr.io/cloud-builders/gcloud
 #      args: ['deploy', 'releases', 'promote', '--release=r-$REVISION_ID','--project=$PROJECT_ID','--region=us-central1','--delivery-pipeline=ci-cd-test', '--to-target=staging']
