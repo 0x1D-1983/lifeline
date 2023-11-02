@@ -1,8 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: lifeline
-  #deploy-run-lifeline-dev
+  name: lifeline-dev
 spec:
   template:
     spec:
