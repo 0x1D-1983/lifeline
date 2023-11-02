@@ -1,0 +1,10 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: lifeline
+  #deploy-run-lifeline-dev
+spec:
+  template:
+    spec:
+      containers:
+      - image: lifeline-app-image
