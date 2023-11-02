@@ -1,0 +1,8 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+  name: ci-cd-lifeline
+description: Deploy pipeline for LifeLine
+serialPipeline:
+  stages:
+  - targetId: ci-cd-lifeline-target-1

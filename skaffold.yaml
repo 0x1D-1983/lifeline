@@ -4,6 +4,6 @@ metadata:
   name: deploy-run-lifeline
 manifests:
   rawYaml:
-  - run-service-dev.yaml
+  - run-service.yaml
 deploy:
   cloudrun: {}

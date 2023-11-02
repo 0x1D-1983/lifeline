@@ -31,21 +31,20 @@ gcloud iam roles create cicdlifelinerole --project=${PROJECT_ID} \
     --stage=Beta
 
 #Add the newly created custom role, and "Cloud Deploy Admin" to the Cloud Build Service Account
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-    --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" --role="projects/${PROJECT_ID}/roles/cicdlifelinerole"
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" --role="projects/${PROJECT_ID}/roles/cicdlifelinerole"
 
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-    --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" --role='roles/clouddeploy.admin'
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" --role='roles/clouddeploy.admin'
 
 #Add the following: "Artifact Registry Reader", "Cloud Deploy Runner" and "Kubernetes Engine Admin" IAM Role to the Compute Engine Service Account
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-    --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" --role='roles/artifactregistry.reader'
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" --role='roles/artifactregistry.reader'
 
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-    --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" --role='roles/clouddeploy.jobRunner'
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" --role='roles/clouddeploy.jobRunner'
 
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-    --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" --role='roles/container.admin'
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" --role='roles/container.admin'
+
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" --role='roles/clouddeploy.admin'
+
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" --role="projects/${PROJECT_ID}/roles/cicdlifelinerole"
 
 #Create a Default VPC and its embedded Subnet. This is under the assumption that the new GCP project did NOT automatically create a default VPC and Subnet.
 #If the creation of a default VPC is not needed, comment out the following 3 commands.
@@ -199,12 +198,29 @@ gcloud container clusters create prod \
 gcloud deploy apply --file=clouddeploy.yaml --region=$LOCATION --project=$PROJECT_ID
 
 # reate a release resource that represents the container image to deploy
-gcloud deploy releases create test-release-001 \
+gcloud deploy releases create test-release-002 \
   --project=$PROJECT_ID \
   --region=$LOCATION \
   --delivery-pipeline=ci-cd-lifeline \
-  --images=lifeline-app-image=europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline/cd@sha256:d1b746394012c25a700a1400a73b4101a3d1a840122cc32eaf9286136c7c9f72
+  --images=lifeline-app-image=europe-west2-docker.pkg.dev/$PROJECT_ID/lifeline-repo/lifeline/cd@sha256:d1b746394012c25a700a1400a73b4101a3d1a840122cc32eaf9286136c7c9f72
 
 
 
   PUBLIC_KEY_ID=$(gcloud container binauthz attestors describe ${ATTESTOR_ID} --format='value(userOwnedGrafeasNote.publicKeys[0].id)')
+
+
+cat > policy.yaml << EOM
+  globalPolicyEvaluationMode: ENABLE
+  defaultAdmissionRule:
+    evaluationMode: REQUIRE_ATTESTATION
+    enforcementMode: ENFORCED_BLOCK_AND_AUDIT_LOG
+    requireAttestationsBy:
+      - projects/${PROJECT_ID}/attestors/${ATTESTOR_ID}
+  name: projects/${PROJECT_ID}/policy
+EOM
+
+gcloud container binauthz attestations list --attestor=$ATTESTOR_ID --attestor-project=$PROJECT_ID
+
+curl "https://containeranalysis.googleapis.com/v1beta1/projects/${ATTESTATION_PROJECT_ID}/occurrences/${OCCURRENCES_GUID}" \
+  --request DELETE   --header "Content-Type: application/json"  \
+  --header "Authorization: Bearer $(gcloud auth print-access-token)"
