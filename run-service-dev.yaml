@@ -1,9 +1,75 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: deploy-run-service-dev
+  name: lifeline
+  namespace: '${PROJECT_NUMBER}'
+  selfLink: /apis/serving.knative.dev/v1/namespaces/${PROJECT_NUMBER}/services/lifeline
+  uid: d8ba18d7-3c62-4380-8a9c-7daafde9043b
+  resourceVersion: AAYJHbf3eCM
+  generation: 15
+  creationTimestamp: '2023-10-31T14:11:27.769692Z'
+  labels:
+    run.googleapis.com/satisfiesPzs: 'true'
+    cloud.googleapis.com/location: europe-west2
+  annotations:
+    run.googleapis.com/client-name: cloud-console
+    serving.knative.dev/creator: kelemen.janos@gmail.com
+    serving.knative.dev/lastModifier: kelemen.janos@gmail.com
+    run.googleapis.com/operation-id: d5a5a2b1-cc6b-4a6a-adbd-e183c0bd2b9b
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
 spec:
   template:
+    metadata:
+      labels:
+        client.knative.dev/nonce: e9078855-cf95-4086-a4cd-6075fce5487b
+        run.googleapis.com/startupProbeType: Custom
+      annotations:
+        run.googleapis.com/client-name: cloud-console
+        autoscaling.knative.dev/minScale: '1'
+        autoscaling.knative.dev/maxScale: '4'
+        run.googleapis.com/startup-cpu-boost: 'true'
     spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      serviceAccountName: ${PROJECT_NUMBER}-compute@developer.gserviceaccount.com
       containers:
-      - image: lifeline-app-image
+      - name: lifeline-1
+        image: lifeline-app-image
+        ports:
+        - name: http1
+          containerPort: 8080
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+        livenessProbe:
+          timeoutSeconds: 1
+          periodSeconds: 10
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 8080
+        startupProbe:
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          periodSeconds: 10
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 8080
+  traffic:
+  - percent: 100
+    latestRevision: true
+status:
+  observedGeneration: 15
+  conditions:
+  - type: Ready
+    status: 'True'
+  - type: ConfigurationsReady
+    status: 'True'
+  - type: RoutesReady
+    status: 'True'
+  url: https://lifeline-5l6v7pcxsq-nw.a.run.app
+  address:
+    url: https://lifeline-5l6v7pcxsq-nw.a.run.app
