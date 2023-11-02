@@ -192,3 +192,8 @@ gcloud container clusters create prod \
     --binauthz-evaluation-mode=PROJECT_SINGLETON_POLICY_ENFORCE \
     --labels=app=vulnapp-prod \
     --subnetwork=default
+
+
+
+# Register your pipeline and targets with the Cloud Deploy service:
+gcloud deploy apply --file=clouddeploy.yaml --region=$LOCATION --project=$PROJECT_ID
