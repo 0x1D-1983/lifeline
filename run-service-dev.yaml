@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: lifeline
+  name: lifeline-2
   namespace: '${PROJECT_NUMBER}'
   selfLink: /apis/serving.knative.dev/v1/namespaces/${PROJECT_NUMBER}/services/lifeline
   uid: d8ba18d7-3c62-4380-8a9c-7daafde9043b
