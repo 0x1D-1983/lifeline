@@ -60,8 +60,8 @@ NOTE_ID=cb-attestor-note
 
 #KMS variables
 KEY_LOCATION=global
-KEYRING=blog-keyring
-KEY_NAME=cd-blog
+KEYRING=lifeline-keyring
+KEY_NAME=cd-lifeline
 KEY_VERSION=1
 
 curl "https://containeranalysis.googleapis.com/v1/projects/${PROJECT_ID}/notes/?noteId=${NOTE_ID}" \
@@ -135,7 +135,7 @@ gcloud container binauthz attestors list
 gcloud artifacts repositories create test-repo \
     --repository-format=Docker \
     --location=europe-west2 \
-    --description="Artifact Registry for GCP DevSecOps CICD Blog" \
+    --description="Artifact Registry for GCP DevSecOps CICD lifeline" \
     --async
 
 #Create two Pub/Sub topics for email approval notification and error logging
@@ -197,3 +197,14 @@ gcloud container clusters create prod \
 
 # Register your pipeline and targets with the Cloud Deploy service:
 gcloud deploy apply --file=clouddeploy.yaml --region=$LOCATION --project=$PROJECT_ID
+
+# reate a release resource that represents the container image to deploy
+gcloud deploy releases create test-release-001 \
+  --project=$PROJECT_ID \
+  --region=$LOCATION \
+  --delivery-pipeline=ci-cd-lifeline \
+  --images=lifeline-app-image=europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline/cd@sha256:d1b746394012c25a700a1400a73b4101a3d1a840122cc32eaf9286136c7c9f72
+
+
+
+  PUBLIC_KEY_ID=$(gcloud container binauthz attestors describe ${ATTESTOR_ID} --format='value(userOwnedGrafeasNote.publicKeys[0].id)')
