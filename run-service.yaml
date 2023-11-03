@@ -59,6 +59,3 @@ status:
     status: 'True'
   - type: RoutesReady
     status: 'True'
-  # url: https://lifeline-5l6v7pcxsq-nw.a.run.app
-  # address:
-  #   url: https://lifeline-5l6v7pcxsq-nw.a.run.app

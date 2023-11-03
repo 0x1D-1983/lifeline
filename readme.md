@@ -15,7 +15,7 @@ The Default Service Account principal must have the following permissions (IAM r
  - Service Account User
 
  The config can be set on the IAM page: https://console.cloud.google.com/iam-admin/iam?project=PROJECT_ID
- The Default Service Accvoiunt principal has the name: ${PROJECT_NUMBER}-compute@developer.gserviceaccount.com
+ The Default Service Account principal has the name: ${PROJECT_NUMBER}-compute@developer.gserviceaccount.com
 
 ## Build and push image
 
