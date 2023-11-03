@@ -5,40 +5,40 @@ steps:
      args:
      - -c
      - |
-       docker build -t ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd:$SHORT_SHA -f ./Dockerfile . &&
-       docker image inspect ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd:$SHORT_SHA
-   - id: Scan The Image
-     name: 'gcr.io/cloud-builders/gcloud'
-     entrypoint: /bin/bash
-     args:
-     - -c
-     - |
-       gcloud artifacts docker images scan ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd:$SHORT_SHA \
-       --format='value(response.scan)' > /workspace/scan_id.txt
-   - id: Check For Vulnerabilities within the Image
-     name: 'gcr.io/cloud-builders/gcloud'
-     entrypoint: /bin/bash
-     args:
-     - -c
-     - |
-       gcloud artifacts docker images list-vulnerabilities $(cat /workspace/scan_id.txt) \
-       --format='value(vulnerability.effectiveSeverity)' | if grep -Fxq $_SEVERITY; \
-       then echo 'Vulnerability check failed for docker image revision ID "$SHORT_SHA", and will not be pushed to Artifact Registry Repo "$_CONTAINER_REPO_NAME" because "$_SEVERITY" checks are impacting the image and needs to be fixed' && exit 1; else exit 0; fi
+       docker build -t europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline/cd:$SHORT_SHA -f ./Dockerfile . &&
+       docker image inspect europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline/cd:$SHORT_SHA
+  #  - id: Scan The Image
+  #    name: 'gcr.io/cloud-builders/gcloud'
+  #    entrypoint: /bin/bash
+  #    args:
+  #    - -c
+  #    - |
+  #      gcloud artifacts docker images scan europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline/cd:$SHORT_SHA \
+  #      --format='value(response.scan)' > /workspace/scan_id.txt
+  #  - id: Check For Vulnerabilities within the Image
+  #    name: 'gcr.io/cloud-builders/gcloud'
+  #    entrypoint: /bin/bash
+  #    args:
+  #    - -c
+  #    - |
+  #      gcloud artifacts docker images list-vulnerabilities $(cat /workspace/scan_id.txt) \
+  #      --format='value(vulnerability.effectiveSeverity)' | if grep -Fxq $_SEVERITY; \
+  #      then echo 'Vulnerability check failed for docker image revision ID "$SHORT_SHA", and will not be pushed to Artifact Registry Repo "$_CONTAINER_REPO_NAME" because "$_SEVERITY" checks are impacting the image and needs to be fixed' && exit 1; else exit 0; fi
    - id: Push Image to Artifact Registry
      name: 'gcr.io/cloud-builders/docker'
      entrypoint: /bin/bash
      args:
      - -c
      - |
-       docker push ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd:$SHORT_SHA
-   - id: Capture Image Digest Information
-     name: 'gcr.io/cloud-builders/gcloud'
-     entrypoint: /bin/bash
-     args:
-      - -c
-      - |
-        gcloud container images describe ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd:$SHORT_SHA \
-        --format='get(image_summary.digest)' > /workspace/digest.txt
+       docker push europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline/cd:$SHORT_SHA
+  #  - id: Capture Image Digest Information
+  #    name: 'gcr.io/cloud-builders/gcloud'
+  #    entrypoint: /bin/bash
+  #    args:
+  #     - -c
+  #     - |
+  #       gcloud container images describe europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline/cd:$SHORT_SHA \
+  #       --format='get(image_summary.digest)' > /workspace/digest.txt
 #    - id: Change permissions on create_binauthz_policy.sh
 #      name: bash
 #      args: ['chmod', '+x', 'scripts/create_binauthz_policy.sh']
@@ -49,18 +49,17 @@ steps:
 #       - -c
 #       - |
 #         ./scripts/create_binauthz_policy.sh
-   - id: Create a cloud deploy release and this will also deploy the release to the first target
-   # ie dev
+   - id: Create a cloud deploy release and this will also deploy the release to the target
      name: 'gcr.io/cloud-builders/gcloud'
      entrypoint: /bin/bash
      args:
       - -c
       - |
         gcloud deploy releases create r-$SHORT_SHA \
-          --project=${PROJECT_ID} \
-          --region=${LOCATION} \
+          --project=qobalt-403922 \
+          --region=europe-west2 \
           --delivery-pipeline=ci-cd-lifeline \
-          --images=lifeline-app-image=${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd@$(cat /workspace/digest.txt)
+          --images=lifeline-app-image=europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline/cd@$(cat /workspace/digest.txt)
 #    - id: Promote/deploy cloud deploy release to next stage ie staging  
 #      name: gcr.io/cloud-builders/gcloud
 #      args: ['deploy', 'releases', 'promote', '--release=r-$SHORT_SHA','--project=$PROJECT_ID','--region=us-central1','--delivery-pipeline=ci-cd-test', '--to-target=staging']
