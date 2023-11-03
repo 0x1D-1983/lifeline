@@ -14,11 +14,15 @@
 **/.toolstarget
 **/.vs
 **/.vscode
+**/.terraform
 **/.next
 **/.cache
 **/*.*proj.user
 **/*.dbmdl
 **/*.jfm
+**/*.hcl
+**/*.tfstate
+**/*.tfstate.backup
 **/charts
 **/docker-compose*
 **/compose*

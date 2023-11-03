@@ -4,5 +4,5 @@ metadata:
   name: ci-cd-lifeline-target-1
 description: Cloud Run development service
 run:
-  location: projects/lifeline-403712/locations/europe-west2
+  location: projects/qobalt-403922/locations/europe-west2
   

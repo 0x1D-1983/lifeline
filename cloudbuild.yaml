@@ -5,15 +5,15 @@ steps:
      args:
      - -c
      - |
-       docker build -t europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline/cd:$SHORT_SHA -f ./Dockerfile . &&
-       docker image inspect europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline/cd:$SHORT_SHA
+       docker build -t ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd:$SHORT_SHA -f ./Dockerfile . &&
+       docker image inspect ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd:$SHORT_SHA
    - id: Scan The Image
      name: 'gcr.io/cloud-builders/gcloud'
      entrypoint: /bin/bash
      args:
      - -c
      - |
-       gcloud artifacts docker images scan europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline/cd:$SHORT_SHA \
+       gcloud artifacts docker images scan ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd:$SHORT_SHA \
        --format='value(response.scan)' > /workspace/scan_id.txt
    - id: Check For Vulnerabilities within the Image
      name: 'gcr.io/cloud-builders/gcloud'
@@ -30,14 +30,14 @@ steps:
      args:
      - -c
      - |
-       docker push europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline/cd:$SHORT_SHA
+       docker push ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd:$SHORT_SHA
    - id: Capture Image Digest Information
      name: 'gcr.io/cloud-builders/gcloud'
      entrypoint: /bin/bash
      args:
       - -c
       - |
-        gcloud container images describe europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline/cd:$SHORT_SHA \
+        gcloud container images describe ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd:$SHORT_SHA \
         --format='get(image_summary.digest)' > /workspace/digest.txt
 #    - id: Change permissions on create_binauthz_policy.sh
 #      name: bash
@@ -57,10 +57,10 @@ steps:
       - -c
       - |
         gcloud deploy releases create r-$SHORT_SHA \
-          --project=lifeline-403712 \
-          --region=europe-west2 \
+          --project=${PROJECT_ID} \
+          --region=${LOCATION} \
           --delivery-pipeline=ci-cd-lifeline \
-          --images=lifeline-app-image=europe-west2-docker.pkg.dev/lifeline-403712/lifeline-repo/lifeline/cd@$(cat /workspace/digest.txt)
+          --images=lifeline-app-image=${LOCATION}-docker.pkg.dev/${PROJECT_ID}/lifeline/lifeline/cd@$(cat /workspace/digest.txt)
 #    - id: Promote/deploy cloud deploy release to next stage ie staging  
 #      name: gcr.io/cloud-builders/gcloud
 #      args: ['deploy', 'releases', 'promote', '--release=r-$SHORT_SHA','--project=$PROJECT_ID','--region=us-central1','--delivery-pipeline=ci-cd-test', '--to-target=staging']

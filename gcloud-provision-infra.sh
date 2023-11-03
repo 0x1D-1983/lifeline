@@ -1,3 +1,5 @@
+gcloud ini
+
 #!/bin/bash
 
 #Run the following ONE-TIME-SCRIPT which creates and provisions the necessary GCP cloud services that will be required to create the DevSecOps CICD pipeline for a sample docker application. Here's all the service deployments that will occur once the script finishes:
@@ -6,22 +8,50 @@
 
 #Enable the following GCP APIs
 #Cloud Build, Binary Authorization, On-Demand Scanning, Resource Manager API, Artifact Registry API, Artifact Registry Vulnerability Scanning, Cloud Deploy API, KMS API and Cloud Functions.
-gcloud services enable cloudbuild.googleapis.com
-gcloud services enable binaryauthorization.googleapis.com
-gcloud services enable ondemandscanning.googleapis.com
-gcloud services enable cloudresourcemanager.googleapis.com
-gcloud services enable artifactregistry.googleapis.com
-gcloud services enable containerscanning.googleapis.com
+
 gcloud services enable clouddeploy.googleapis.com
-gcloud services enable cloudkms.googleapis.com
-gcloud services enable cloudfunctions.googleapis.com
+gcloud services enable cloudbuild.googleapis.com
+gcloud services enable run.googleapis.com
+
+
+
+# gcloud services enable binaryauthorization.googleapis.com
+# gcloud services enable ondemandscanning.googleapis.com
+# gcloud services enable cloudresourcemanager.googleapis.com
+# gcloud services enable artifactregistry.googleapis.com
+# gcloud services enable containerscanning.googleapis.com
+
+# gcloud services enable cloudkms.googleapis.com
+# gcloud services enable cloudfunctions.googleapis.com
+
+
+# PEOJECT NUMBER 612050719732
+# PROJECT ID: lifeline-403920
 
 #GCP Project Variables
 LOCATION=europe-west2
 PROJECT_ID=$(gcloud config list --format 'value(core.project)')
 PROJECT_NUMBER=$(gcloud projects describe "${PROJECT_ID}" --format='value(projectNumber)')
-CLOUD_BUILD_SA_EMAIL="${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com"
-BINAUTHZ_SA_EMAIL="service-${PROJECT_NUMBER}@gcp-sa-binaryauthorization.iam.gserviceaccount.com"
+# CLOUD_BUILD_SA_EMAIL="${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com"
+# BINAUTHZ_SA_EMAIL="service-${PROJECT_NUMBER}@gcp-sa-binaryauthorization.iam.gserviceaccount.com"
+
+gcloud projects describe ${PROJECT_ID}
+
+
+# createTime: '2023-11-02T20:08:41.842Z'
+# lifecycleState: ACTIVE
+# name: lifeline
+# projectId: lifeline-403920
+# projectNumber: '612050719732'
+
+
+# Register your pipeline and targets with the Cloud Deploy service:
+gcloud deploy apply --file=clouddeploy-pipeline.yaml --region=${LOCATION} --project=${PROJECT_ID}
+gcloud deploy apply --file=clouddeploy-target.yaml --region=${LOCATION} --project=${PROJECT_ID}
+
+
+gcloud projects add-iam-policy-binding lifeline-403920 --member="serviceAccount:612050719732-compute@developer.gserviceaccount.com" --role="roles/clouddeploy.jobRunner"
+
 
 #Create the following custom IAM role
 gcloud iam roles create cicdlifelinerole --project=${PROJECT_ID} \
@@ -192,17 +222,41 @@ gcloud container clusters create prod \
     --labels=app=vulnapp-prod \
     --subnetwork=default
 
+docker build --platform=linux/amd64 -t europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline:demo .
+docker push europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline:demo  
 
 
-# Register your pipeline and targets with the Cloud Deploy service:
-gcloud deploy apply --file=clouddeploy.yaml --region=$LOCATION --project=$PROJECT_ID
 
 # reate a release resource that represents the container image to deploy
-gcloud deploy releases create test-release-002 \
-  --project=$PROJECT_ID \
-  --region=$LOCATION \
+gcloud deploy releases create test-release-004 \
+  --project=${PROJECT_ID} \
+  --region=${LOCATION} \
   --delivery-pipeline=ci-cd-lifeline \
-  --images=lifeline-app-image=europe-west2-docker.pkg.dev/$PROJECT_ID/lifeline-repo/lifeline/cd@sha256:d1b746394012c25a700a1400a73b4101a3d1a840122cc32eaf9286136c7c9f72
+  --impersonate-service-account=deploy-qobalt-service-account@qobalt-403922.iam.gserviceaccount.com \
+  --images=lifeline-app-image=europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline@sha256:f74eb3a5b776464c5b955b5c755466962ff3c7010fbeec62676327ccc76000da
+  # --deploy-parameters="PROJECT_NUMBER=${PROJECT_NUMBER}"
+
+
+
+# Assign the clouddeploy.jobRunner role to the default Compute Engine service account 
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:$(gcloud projects describe ${PROJECT_ID} \
+  --format="value(projectNumber)")-compute@developer.gserviceaccount.com \
+  --role="roles/clouddeploy.jobRunner"
+
+# Grant the default execution service account actAs permission to deploy workloads into Cloud Run
+gcloud iam service-accounts add-iam-policy-binding $(gcloud projects describe ${PROJECT_ID} \
+  --format="value(projectNumber)")-compute@developer.gserviceaccount.com \
+  --member=serviceAccount:$(gcloud projects describe ${PROJECT_ID} \
+  --format="value(projectNumber)")-compute@developer.gserviceaccount.com \
+  --role="roles/iam.serviceAccountUser" \
+  --project=${PROJECT_ID}
+
+# Add the Cloud Run developer permissions as well
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+    --member=serviceAccount:$(gcloud projects describe ${PROJECT_ID} \
+    --format="value(projectNumber)")-compute@developer.gserviceaccount.com \
+    --role="roles/run.developer"
 
 
 

@@ -1,2 +1,6 @@
-/node_modules
+**/node_modules
+**/.terraform
 *DS_Store
+**/*.hcl
+**/*.tfstate
+**/*.tfstate.backup

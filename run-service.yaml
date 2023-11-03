@@ -1,28 +1,20 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: lifeline-demo
-  namespace: '${PROJECT_NUMBER}'
-  selfLink: /apis/serving.knative.dev/v1/namespaces/${PROJECT_NUMBER}/services/lifeline
-  uid: d8ba18d7-3c62-4380-8a9c-7daafde9043b
-  resourceVersion: AAYJHbf3eCM
-  generation: 15
-  creationTimestamp: '2023-10-31T14:11:27.769692Z'
+  name: lifeline-qobalt
+  namespace: '157934573900'
+  selfLink: /apis/serving.knative.dev/v1/namespaces/157934573900/services/lifeline
   labels:
     run.googleapis.com/satisfiesPzs: 'true'
     cloud.googleapis.com/location: europe-west2
   annotations:
     run.googleapis.com/client-name: cloud-console
-    serving.knative.dev/creator: kelemen.janos@gmail.com
-    serving.knative.dev/lastModifier: kelemen.janos@gmail.com
-    run.googleapis.com/operation-id: d5a5a2b1-cc6b-4a6a-adbd-e183c0bd2b9b
     run.googleapis.com/ingress: all
     run.googleapis.com/ingress-status: all
 spec:
   template:
     metadata:
       labels:
-        client.knative.dev/nonce: e9078855-cf95-4086-a4cd-6075fce5487b
         run.googleapis.com/startupProbeType: Custom
       annotations:
         run.googleapis.com/client-name: cloud-console
@@ -32,7 +24,7 @@ spec:
     spec:
       containerConcurrency: 80
       timeoutSeconds: 300
-      serviceAccountName: ${PROJECT_NUMBER}-compute@developer.gserviceaccount.com
+      serviceAccountName: 157934573900-compute@developer.gserviceaccount.com
       containers:
       - name: lifeline-1
         image: lifeline-app-image
@@ -70,6 +62,6 @@ status:
     status: 'True'
   - type: RoutesReady
     status: 'True'
-  url: https://lifeline-5l6v7pcxsq-nw.a.run.app
-  address:
-    url: https://lifeline-5l6v7pcxsq-nw.a.run.app
+  # url: https://lifeline-5l6v7pcxsq-nw.a.run.app
+  # address:
+  #   url: https://lifeline-5l6v7pcxsq-nw.a.run.app
