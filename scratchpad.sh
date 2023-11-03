@@ -228,12 +228,13 @@ docker push europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline:demo
 
 
 # reate a release resource that represents the container image to deploy
-gcloud deploy releases create test-release-004 \
+gcloud deploy releases create test-release-007 \
   --project=${PROJECT_ID} \
   --region=${LOCATION} \
   --delivery-pipeline=ci-cd-lifeline \
-  --impersonate-service-account=deploy-qobalt-service-account@qobalt-403922.iam.gserviceaccount.com \
-  --images=lifeline-app-image=europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline@sha256:f74eb3a5b776464c5b955b5c755466962ff3c7010fbeec62676327ccc76000da
+  --images=lifeline-app-image=europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline@sha256:27c6323b6cba5f7ca7e0d3bd0fbf38e1f6bd73dabf051150656f6e253b6d7ac2
+
+
   # --deploy-parameters="PROJECT_NUMBER=${PROJECT_NUMBER}"
 
 
@@ -278,3 +279,36 @@ gcloud container binauthz attestations list --attestor=$ATTESTOR_ID --attestor-p
 curl "https://containeranalysis.googleapis.com/v1beta1/projects/${ATTESTATION_PROJECT_ID}/occurrences/${OCCURRENCES_GUID}" \
   --request DELETE   --header "Content-Type: application/json"  \
   --header "Authorization: Bearer $(gcloud auth print-access-token)"
+
+
+
+  export PATH="/Users/funlamb/google-cloud-sdk/bin:$PATH"
+
+gcloud auth configure-docker europe-west2-docker.pkg.dev
+
+
+gcloud iam service-accounts list
+
+gcloud iam service-accounts describe 189769499429-compute@developer.gserviceaccount.com
+
+
+gcloud auth print-access-token --impersonate-service-account 189769499429-compute@developer.gserviceaccount.com | docker login -u oauth2accesstoken --password-stdin https://europe-west2-docker.pkg.dev
+
+
+
+gcloud iam service-accounts keys create key.json --iam-account=189769499429-compute@developer.gserviceaccount.com
+
+gcloud auth activate-service-account 189769499429-compute@developer.gserviceaccount.com --key-file=key.json
+
+docker tag lifeline europe-west2-docker.pkg.dev/lifeline-403920/lifeline-repo/lifeline
+docker push europe-west2-docker.pkg.dev/lifeline-403920/lifeline-repo/lifeline
+
+
+gcloud projects list
+
+gcloud config set project lifeline-403920
+
+gcloud builds submit https://github.com/0x1D-1983/lifeline --git-source-revision=52facc5 --tag europe-west2-docker.pkg.dev/lifeline-403920/lifeline-repo/lifeline:demo-2
+
+docker build --platform=linux/amd64 -t europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline:r7 .
+docker push europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline:r7
