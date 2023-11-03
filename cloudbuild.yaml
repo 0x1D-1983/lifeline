@@ -31,14 +31,14 @@ steps:
      - -c
      - |
        docker push europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline/cd:$SHORT_SHA
-  #  - id: Capture Image Digest Information
-  #    name: 'gcr.io/cloud-builders/gcloud'
-  #    entrypoint: /bin/bash
-  #    args:
-  #     - -c
-  #     - |
-  #       gcloud container images describe europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline/cd:$SHORT_SHA \
-  #       --format='get(image_summary.digest)' > /workspace/digest.txt
+   - id: Capture Image Digest Information
+     name: 'gcr.io/cloud-builders/gcloud'
+     entrypoint: /bin/bash
+     args:
+      - -c
+      - |
+        gcloud container images describe europe-west2-docker.pkg.dev/qobalt-403922/lifeline/lifeline/cd:$SHORT_SHA \
+        --format='get(image_summary.digest)' > /workspace/digest.txt
 #    - id: Change permissions on create_binauthz_policy.sh
 #      name: bash
 #      args: ['chmod', '+x', 'scripts/create_binauthz_policy.sh']
