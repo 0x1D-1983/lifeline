@@ -30,7 +30,7 @@ spec:
         image: lifeline-app-image
         ports:
         - name: http1
-          containerPort: 8080
+          containerPort: 8081
         resources:
           limits:
             cpu: 1000m
@@ -42,11 +42,11 @@ spec:
           failureThreshold: 5
           httpGet:
             path: /
-            port: 8080
+            port: 8081
         startupProbe:
           httpGet:
             path: /
-            port: 8080
+            port: 8081
   traffic:
   - percent: 100
     latestRevision: true
